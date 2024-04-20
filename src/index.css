@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+}
+
+
+
+.seccion-mostrar-gatos-que-ya-fueron-rescatados{
+    width: 100%;
+    height:100px;
+    background-color: black;
+    color: white;
+}
+.contenedor{
+     width: 100%;
+     justify-content: center;
+     align-items: center; 
+    }
+    .seccion{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .contenedor-img{
+        display: flex;
+    }
+    .culumna{
+    }
+
+.mostrar {
+    animation: mover 1s forwards; /* Coloca "forwards" aquí para mantener el estado final */
+}
+
+@keyframes mover {
+    0% {
+        transform: translateY(-100px); /* Inicia desde -100px en Y */
+        opacity: 0; /* Inicia completamente transparente */
+    }
+    100% {
+        transform: translateY(0); /* Termina en la posición original en Y */
+        opacity: 1; /* Termina completamente opaco */
+    }
+}
+
+
+
+
+

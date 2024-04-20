@@ -1,0 +1,14 @@
+.contenedor-splider{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.slider{
+    height: 100%;
+}
+.img-splider{
+ min-width: 140px;
+ object-fit:  cover;
+}
+
+
