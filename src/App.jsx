@@ -34,21 +34,57 @@ export const App = () => {
     [div, div1, div2, div3, div4, div5, div6, div7].forEach((ref, index) => {
       if (ref.current) {
         const rect = ref.current.getBoundingClientRect();
-        const height = Math.floor(Math.abs(rect.top));
+        const height = Math.floor(rect.top);
 
         setIdMostrar((prev) =>
           prev.map((item, i) =>
             i === index
-              ? { ...item, height, mostrar: posicionScrollY > height - 130 }
+              ? { ...item, height, mostrar: posicionScrollY > height - 400 }
               : item
           )
         );
       }
     });
   }, [posicionScrollY]);
+
+  const [positionImg, setPositionImg] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    if (posicionScrollY < 500) {
+      setPositionImg({ x: -posicionScrollY / 2, y: posicionScrollY });
+    }
+    else if(posicionScrollY > 500 && posicionScrollY < 900 ){
+      setPositionImg( prev => ({...prev,y:posicionScrollY}));
+    }
+    else if(posicionScrollY > 900  && posicionScrollY < 1500){
+      setPositionImg( prev => {
+         let  positioX = prev.x
+         positioX +=  13
+         return {x:positioX,y:posicionScrollY}
+      });
+
+    }
+    else if(posicionScrollY > 1500 && posicionScrollY < 2000 ){
+    setPositionImg(prev => ({...prev,x:prev - 1 , y:posicionScrollY}))
+
+    }
+
+
+  }, [posicionScrollY]);
+
+
+
+
   return (
     <div className="contenedor">
-      <section className=" seccion  w-full py-12 md:py-2004 lg:py-32 xl:py-40">
+      <img
+        className="img-portada"
+        style={{
+          transform: `translateY(${positionImg.y}px) translateX(${positionImg.x}px)`,
+        }}
+        src={img1}
+        alt=""
+      />
+      <section className=" seccion w-full py-12 md:py-2004 lg:py-32 xl:py-40">
         <div
           className={` container flex flex-col items-center justify-center space-y-10 px-4 md:px-6 `}
         >
@@ -71,7 +107,7 @@ export const App = () => {
           </div>
         </div>
       </section>
-      <section className="seccion   bg-black text-white w-full py-12 md:py-24 lg:py-32 xl:py-40">
+      <section className="seccion   bg-white text-black w-full py-12 md:py-24 lg:py-32 xl:py-40">
         <div className="container flex flex-col items-center justify-center space-y-4 px-4 md:px-6">
           <div
             ref={div1}
@@ -82,7 +118,7 @@ export const App = () => {
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
               Arvertencia
             </h2>
-            <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-base/relaxed dark:text-gray-400">
+            <p className="max-w-[900px] text-black-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-base/relaxed dark:text-black-400">
               Si vemos que el animal que llevaste esta siendo matrado o que no
               cumple con las condicion el animal sera quitado por la institucion
               y usted tendra cargos si el animal fue maltrado{" "}
@@ -175,8 +211,12 @@ export const App = () => {
           </div>
         </div>
       </section>
-      <section className="seccion-mostrar-gatos-que-ya-fueron-rescatados"> 
-      <Slider/>
+      <section className="seccion-mostrar-gatos-que-ya-fueron-rescatados">
+        <h3 className="titulo-seccion-gatos-adoptados font-bold ">
+          gatos ya adoptados{" "}
+        </h3>
+
+        <Slider />
       </section>
       <section className=" seccion w-full py-12 md:py-24 lg:py-32 xl:py-40">
         <div className="contenedor-img">

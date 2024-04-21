@@ -3,15 +3,23 @@
 @tailwind utilities;
 
 body{
+    background-color: black;
+    color: white;
 }
+
 
 
 
 .seccion-mostrar-gatos-que-ya-fueron-rescatados{
     width: 100%;
-    height:100px;
-    background-color: black;
-    color: white;
+    height:400px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+}
+.titulo-seccion-gatos-adoptados{
+    font-size: 30px;
 }
 .contenedor{
      width: 100%;
@@ -45,6 +53,19 @@ body{
     }
 }
 
+
+
+.img-portada{
+    width: 100px;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    
+}
 
 
 
