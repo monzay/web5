@@ -3,9 +3,11 @@ import img1 from "./assets/img penteres/img1.jpg";
 import img2 from "./assets/img penteres/img2.jpg";
 import img3 from "./assets/img penteres/img3.jpg";
 import img4 from "./assets/img penteres/img4.jpg";
+import fondo from "./assets/img penteres/fondo.png";
 import { useEffect, useRef } from "react";
 import { state } from "./stateIdMostra";
 import { Slider } from "./ComponenteSplider/Slider";
+import { Footer } from "./footer/Footer";
 export const App = () => {
   const [posicionScrollY, setPosicionScrollY] = useState(0);
   const [idMostrar, setIdMostrar] = useState(state);
@@ -19,6 +21,10 @@ export const App = () => {
   const div6 = useRef(null);
   const div7 = useRef(null);
 
+
+  //-----------------------------------------------------------------------------//
+
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -29,6 +35,10 @@ export const App = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+
+  //-----------------------------------------------------------------------------//
+
 
   useEffect(() => {
     [div, div1, div2, div3, div4, div5, div6, div7].forEach((ref, index) => {
@@ -47,50 +57,73 @@ export const App = () => {
     });
   }, [posicionScrollY]);
 
+
+
+  //-----------------------------------------------------------------------------//
+
   const [positionImg, setPositionImg] = useState({ x: 0, y: 0 });
+
+  const widthWindow = window.innerWidth 
+  
   useEffect(() => {
-    if (posicionScrollY < 500) {
-      setPositionImg({ x: -posicionScrollY / 2, y: posicionScrollY });
+    if(widthWindow > 800){
+      if (posicionScrollY < 500) {
+        setPositionImg({ x: -posicionScrollY / 2, y: posicionScrollY });
+      } else if (posicionScrollY > 500 && posicionScrollY < 900) {
+        setPositionImg((prev) => ({ ...prev, y: posicionScrollY }));
+      } else if (posicionScrollY > 900 && posicionScrollY < 1400) {
+        setPositionImg((prev) => {
+          let positioX = prev.x;
+          positioX += 15;
+          return { x: positioX, y: posicionScrollY };
+        });
+      } else if (posicionScrollY > 1200 && posicionScrollY < 1700) {
+        setPositionImg((prev) => {
+          let positioX = prev.x;
+          positioX -= 23;
+          return { x: positioX, y: posicionScrollY };
+        });
+      } else if (posicionScrollY > 1700 &&  posicionScrollY  < 1870) {
+        setPositionImg((prev) => ({ ...prev, y: posicionScrollY }));
+      }
+    }else {
+      setPositionImg({y:posicionScrollY,x:0})
     }
-    else if(posicionScrollY > 500 && posicionScrollY < 900 ){
-      setPositionImg( prev => ({...prev,y:posicionScrollY}));
-    }
-    else if(posicionScrollY > 900  && posicionScrollY < 1500){
-      setPositionImg( prev => {
-         let  positioX = prev.x
-         positioX +=  13
-         return {x:positioX,y:posicionScrollY}
-      });
-
-    }
-    else if(posicionScrollY > 1500 && posicionScrollY < 2000 ){
-    setPositionImg(prev => ({...prev,x:prev - 1 , y:posicionScrollY}))
-
-    }
-
 
   }, [posicionScrollY]);
 
 
+  //-----------------------------------------------------------------------------//
+  const [sacarFondoAnimado, setSacarFondoAnimado] = useState(false);
 
+
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setSacarFondoAnimado(true);
+    }
+  }, []);
 
   return (
+
     <div className="contenedor">
       <img
         className="img-portada"
         style={{
+          filter: `sepia(100%) saturate(1000%) hue-rotate(${
+            100 + (posicionScrollY / 13)
+          }deg)`,
           transform: `translateY(${positionImg.y}px) translateX(${positionImg.x}px)`,
         }}
-        src={img1}
+        src={fondo}
         alt=""
       />
-      <section className=" seccion w-full py-12 md:py-2004 lg:py-32 xl:py-40">
+      <section className=" seccion-portada  w-full py-12 md:py-2004 lg:py-32 xl:py-40">
         <div
           className={` container flex flex-col items-center justify-center space-y-10 px-4 md:px-6 `}
         >
           <div className="flex flex-col items-center space-y-5 text-center">
             <div className="space-y-2">
-              <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl">
+              <h1 className="text-5xl  font-bold tracking-tighter sm:text-6xl">
                 CodyHouse
               </h1>
               <p className="max-w-[600px] text-gray-500 md:text-xl/none lg:text-base xl:text-xl dark:text-gray-400">
@@ -107,7 +140,7 @@ export const App = () => {
           </div>
         </div>
       </section>
-      <section className="seccion   bg-white text-black w-full py-12 md:py-24 lg:py-32 xl:py-40">
+      <section className="seccion text-white text-black w-full py-12 md:py-24 lg:py-32 xl:py-40">
         <div className="container flex flex-col items-center justify-center space-y-4 px-4 md:px-6">
           <div
             ref={div1}
@@ -128,13 +161,11 @@ export const App = () => {
       </section>
       <section className="seccion  w-full py-12 md:py-24 lg:py-32 xl:py-40">
         <div className="container grid items-center space-y-4 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
-          <img
-            src={img2}
-            width="600"
-            height="400"
-            alt="ContraMate"
-            className="imgs mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center"
-          />
+          {sacarFondoAnimado ? (
+            <img src={img2} width="600" height="400" />
+          ) : (
+            <div style={{ width: "600", height: 200 }}> </div>
+          )}
           <div
             ref={div2}
             className={` ${
@@ -173,24 +204,20 @@ export const App = () => {
               </p>
             </div>
           </div>
-          <img
-            src={img3}
-            width="600"
-            height="400"
-            alt="ContraMate"
-            className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center"
-          />
+          {sacarFondoAnimado ? (
+            <img src={img2} width="600" height="400" />
+          ) : (
+            <div style={{ width: "600", height: 200 }}> </div>
+          )}
         </div>
       </section>
       <section className="seccion w-full py-12 md:py-24 lg:py-32 xl:py-40">
         <div className="container grid items-center space-y-4 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
-          <img
-            src={img1}
-            width="600"
-            height="400"
-            alt="ContraMate"
-            className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center"
-          />
+          {sacarFondoAnimado ? (
+            <img src={img2} width="600" height="400" />
+          ) : (
+            <div style={{ width: "600", height: 200 }}> </div>
+          )}
           <div className="flex flex-col justify-center space-y-4">
             <div
               ref={div4}
@@ -219,25 +246,6 @@ export const App = () => {
         <Slider />
       </section>
       <section className=" seccion w-full py-12 md:py-24 lg:py-32 xl:py-40">
-        <div className="contenedor-img">
-          <div className="culumna">
-            <img className="imgs" src={img1} alt="" />
-            <img className="imgs" src={img2} alt="" />
-            <img className="imgs" src={img3} alt="" />
-          </div>
-          <div className="culumna">
-            <img className="imgs" src={img1} alt="" />
-            <img className="imgs" src={img3} alt="" />
-            <img className="imgs" src={img2} alt="" />
-          </div>
-          <div className="culumna">
-            <img className="imgs" src={img4} alt="" />
-            <img className="imgs" src={img3} alt="" />
-            <img className="imgs" src={img2} alt="" />
-          </div>
-        </div>
-      </section>
-      <section className=" seccion w-full py-12 md:py-24 lg:py-32 xl:py-40">
         <div className="container flex flex-col items-center justify-center space-y-4 px-4 md:px-6">
           <div
             ref={div7}
@@ -258,6 +266,7 @@ export const App = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

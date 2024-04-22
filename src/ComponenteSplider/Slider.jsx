@@ -12,7 +12,6 @@ export const Slider = () => {
                     imgs.map((gato,index)=> (
                         <div key={index} className='slide'>
                             <img src={gato.img} alt="" />
-                            <span>{gato.nombre} </span>
                         </div>
                     ))
                 }
